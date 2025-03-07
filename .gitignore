@@ -1,0 +1,5 @@
+# БД
+db.sqlite3
+
+# cache
+*/__pycache__
