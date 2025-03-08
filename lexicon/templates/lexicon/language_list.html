@@ -1,0 +1,9 @@
+{% if languages %}
+<ul>
+    {% for language in languages %}
+    <li><a href="{% url 'lexicon:language' language.id %}">{{language.name}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Пока нет языков</p>
+{% endif %}
