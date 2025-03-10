@@ -1,9 +1,25 @@
-{% if languages %}
-<ul>
-    {% for language in languages %}
-    <li><a href="{% url 'lexicon:language' language.id %}">{{language.name}}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>Пока нет языков</p>
-{% endif %}
+{% extends "base.html" %}
+
+{% block title %}Leksemaro — {% block header_title %}Мои языки{% endblock header_title %}{% endblock title %}
+
+{% block content %}
+    {% if languages %}
+    <div class="grid">
+        {% for language in languages %}
+        <article class="s6 m4 l3">
+            <h5>{{language.name}}</h5>
+            <p>Слов: {{language.word_count}}</p>
+            <nav>
+                <a class="button" href="{% url "lexicon:language" language.id %}">
+                    Учить!
+                </a>
+            </nav>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="absolute center">
+        <p>Пока нет языков</p>
+    </div>
+    {% endif %}
+{% endblock content %}

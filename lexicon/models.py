@@ -6,6 +6,14 @@ class Language(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
 
+    @property
+    def word_classes(self):
+        return WordClass.objects.filter(language=self).all()
+
+    @property
+    def word_count(self):
+        return sum([wc.word_count for wc in self.word_classes])
+
     def __str__(self):
         return f"Язык '{self.name}' | {self.user}"
 
@@ -19,6 +27,10 @@ class WordClass(models.Model):
 
     @property
     def user(self): return self.language.user
+
+    @property
+    def word_count(self):
+        return Lexeme.objects.filter(word_class=self).count()
 
     def __str__(self):
         return f"Часть речи '{self.name}' | {self.language}"
