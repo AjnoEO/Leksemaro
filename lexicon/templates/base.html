@@ -10,10 +10,12 @@
 <body>
     <header class="fill">
         <nav>
-            <button class="circle transparent">
-                <i>menu</i>
-            </button>
-            <h5 class="max center-align">{% block header_title %}Leksemaro{% endblock header_title %}</h5>
+            {% block left_nav_button %}
+            <a class="button circle transparent" href="">
+                <i>add</i>
+            </a>
+            {% endblock left_nav_button %}
+            <h1 class="max center-align small">{% block header_title %}Leksemaro{% endblock header_title %}</h1>
             <button class="circle transparent">
                 <img class="responsive" src="/favicon.png">
             </button>
