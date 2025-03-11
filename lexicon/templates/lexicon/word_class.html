@@ -1,0 +1,28 @@
+{% extends "base_item.html" %}
+
+{% block title %}
+    Leksemaro &mdash; {% block header_title %}{{word_class.language.name}}, {{word_class.name}}{% endblock header_title %}
+{% endblock title %}
+
+{% block back_url %}{% url "lexicon:language" word_class.language.id %}{% endblock back_url %}
+
+{% block content %}
+<h2>
+    Слова
+</h2>
+{% with lexemes=word_class.lexeme_set.all %}
+{% if lexemes %}
+<div class="grid">
+    {% for lexeme in lexemes %}
+    <article class="s6 m4 l3">
+        <h5>{{lexeme.word}}</h5>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="absolute center">
+    <p>Пока нет слов</p>
+</div>
+{% endif %}
+{% endwith %}
+{% endblock content %}
