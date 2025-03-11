@@ -70,7 +70,7 @@ class Lexeme(models.Model):
     """Лексема (слово)"""
     word_class = models.ForeignKey(WordClass, on_delete=models.CASCADE)
     word = models.CharField(max_length=256)
-    lexical_category_values = models.ManyToManyField(LexicalCategoryValue)
+    lexical_category_values = models.ManyToManyField(LexicalCategoryValue, blank=True)
 
     # TODO: Проверка, что лексические категории берутся из правильной части речи
 
@@ -82,6 +82,7 @@ class Lexeme(models.Model):
 
     def __str__(self):
         lexcat_values = [f"{catval.lexical_category}={catval.name}" for catval in self.lexical_category_values.all()]
-        return (
-            f"{self.word_class.name} '{self.word}' | " + " | ".join(lexcat_values) + f" | {self.language}"
-        )
+        result = f"{self.word_class.name} '{self.word}' | "
+        if lexcat_values: result += " | ".join(lexcat_values) + " | "
+        result += f" | {self.language}"
+        return result
