@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from django.urls import reverse
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'lexicon'
 ]
 
@@ -100,6 +103,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "lexicon:index"
+LOGOUT_REDIRECT_URL = "lexicon:index"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% block snackbar %}
+{% if form.errors %}
+<div class="snackbar error" id="snackbar">{{form.errors.popitem.1.0}}</div>
+{% endif %}
+{% endblock snackbar %}
+
+<h2>{% block form_title %}Заполните форму{% endblock form_title %}</h2>
+<form method="post" action="{% block action_url %}{% endblock action_url %}">
+{% csrf_token %}
+{{form.as_div}}
+<div class="center-align">
+    <input class="button" type="submit" value="{% block submit_button %}Готово{% endblock submit_button %}">
+    <input class="button" type="hidden" name="next" value="{{ next }}">
+</div>
+</form>
+
+{% block links %}{% endblock links %}
+
+{% endblock %}

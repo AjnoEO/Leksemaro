@@ -1,0 +1,11 @@
+{% extends "base_form.html" %}
+
+{% block action_url %}{% url 'accounts:register' %}{% endblock action_url %}
+
+{% block form_title %}Создайте аккаунт{% endblock form_title %}
+
+{% block submit_button %}Создать аккаунт{% endblock submit_button %}
+
+{% block links %}
+<p><a href="{% url 'login' %}">Уже есть аккаунт?</a></p>
+{% endblock links %}

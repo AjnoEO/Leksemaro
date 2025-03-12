@@ -1,0 +1,24 @@
+{% extends "base_form.html" %}
+
+{% block snackbar %}
+{% if form.errors %}
+<div class="snackbar error" id="snackbar">Неверный логин или пароль</div>
+{% elif next %}
+    {% if user.is_authenticated %}
+    <div class="snackbar error" id="snackbar">У вас нет доступа к этой странице. Чтобы продолжить, войдите в аккаунт с правом доступа</div>
+    {% else %}
+    <div class="snackbar error" id="snackbar">Пожалуйста, войдите в аккаунт, чтобы продолжить.</div>
+    {% endif %}
+{% endif %}
+{% endblock snackbar %}
+
+{% block action_url %}{% url 'accounts:login' %}{% endblock action_url %}
+
+{% block form_title %}Войдите в аккаунт{% endblock form_title %}
+
+{% block submit_button %}Войти в аккаунт{% endblock submit_button %}
+
+{% block links %}
+<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+<p><a href="{% url 'accounts:register' %}">Ещё нет аккаунта?</a></p>
+{% endblock links %}
