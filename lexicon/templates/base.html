@@ -20,7 +20,7 @@
             <h1 class="max center-align small">{% block header_title %}Leksemaro{% endblock header_title %}</h1>
             <div>
                 <button class="circle transparent" data-ui="#account-menu">
-                    <i>person</i>
+                    <i>account_circle{% if not user.is_authenticated %}_off{% endif %}</i>
                     {% comment %} <img class="responsive" src="/favicon.png"> {% endcomment %}
                 </button>
                 {% if user.is_authenticated %}
@@ -29,7 +29,7 @@
                     <nav class="right-align">
                     <form action="{% url 'accounts:logout' %}" method="post">
                         {% csrf_token %}
-                        <button class="error" type="submit">Выйти</button>
+                        <button class="error" type="submit"><i>logout</i> Выйти</button>
                     </form>
                     </nav>
                 </dialog>

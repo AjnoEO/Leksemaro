@@ -4,20 +4,26 @@
 
 {% block snackbar %}
 {% if form.errors %}
-<div class="snackbar error" id="snackbar">{{form.errors.popitem.1.0}}</div>
+{% comment %} <div class="snackbar error" id="snackbar">{{form.errors.popitem.1.0}}</div> {% endcomment %}
+<div class="snackbar error" id="snackbar">Ошибка при заполнении формы</div>
 {% endif %}
 {% endblock snackbar %}
 
-<h2>{% block form_title %}Заполните форму{% endblock form_title %}</h2>
-<form method="post" action="{% block action_url %}{% endblock action_url %}">
-{% csrf_token %}
-{{form.as_div}}
-<div class="center-align">
-    <input class="button" type="submit" value="{% block submit_button %}Готово{% endblock submit_button %}">
-    <input class="button" type="hidden" name="next" value="{{ next }}">
+<div class="grid">
+    <div class="s0 m2 l3"></div>
+    <div class="s12 m8 l6">
+        <h2>{% block form_title %}Заполните форму{% endblock form_title %}</h2>
+        <form method="post" action="{% block action_url %}{% endblock action_url %}">
+        {% csrf_token %}
+        {{form.as_div}}
+        <div class="center-align">
+            <input class="button" type="submit" value="{% block submit_button %}Готово{% endblock submit_button %}">
+            <input class="button" type="hidden" name="next" value="{{ next }}">
+        </div>
+        </form>
+        {% block links %}{% endblock links %}
+    </div>
+    <div class="s0 m2 l3"></div>
 </div>
-</form>
-
-{% block links %}{% endblock links %}
 
 {% endblock %}
