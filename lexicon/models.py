@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Language(models.Model):
     """Язык"""
@@ -71,6 +72,8 @@ class Lexeme(models.Model):
     word_class = models.ForeignKey(WordClass, on_delete=models.CASCADE)
     word = models.CharField(max_length=256)
     lexical_category_values = models.ManyToManyField(LexicalCategoryValue, blank=True)
+    last_repetition = models.DateTimeField(default=timezone.now)
+    coefficient = models.SmallIntegerField(default=1) # last_repetition / (6 * 10 ** coefficient)
 
     # TODO: Проверка, что лексические категории берутся из правильной части речи
 
@@ -86,3 +89,18 @@ class Lexeme(models.Model):
         if lexcat_values: result += " | ".join(lexcat_values) + " | "
         result += f" | {self.language}"
         return result
+
+class Meaning(models.Model):
+    """Значение слова"""
+    lexeme = models.ForeignKey(Lexeme, on_delete=models.CASCADE)
+    number = models.SmallIntegerField(default=1)
+    translation = models.CharField(max_length=256)
+
+    @property
+    def language(self): return self.lexeme.language
+
+    @property
+    def user(self): return self.lexeme.user
+
+    def __str__(self):
+        return f"'{self.translation}' ('{self.lexeme.word}') | {self.language}"
