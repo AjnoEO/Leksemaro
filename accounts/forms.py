@@ -6,7 +6,7 @@ class CustomForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""
     
-    template_name_div = "registration/div.html"
+    template_name_div = "div.html"
 
 class LeksemaroAuthenticationForm(AuthenticationForm, CustomForm):
     ...

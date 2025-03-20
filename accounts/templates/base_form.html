@@ -13,9 +13,10 @@
     <div class="s0 m2 l3"></div>
     <div class="s12 m8 l6">
         <h2>{% block form_title %}Заполните форму{% endblock form_title %}</h2>
+        {% block form_description %}{% endblock form_description %}
         <form method="post" action="{% block action_url %}{% endblock action_url %}">
         {% csrf_token %}
-        {{form.as_div}}
+        {% block form_fields %}{{form.as_div}}{% endblock form_fields %}
         <div class="center-align">
             <input class="button" type="submit" value="{% block submit_button %}Готово{% endblock submit_button %}">
             <input class="button" type="hidden" name="next" value="{{ next }}">

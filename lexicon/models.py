@@ -7,6 +7,10 @@ class Language(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
 
+    class Meta:
+        verbose_name = "язык"
+        verbose_name_plural = "языки"
+
     @property
     def word_classes(self):
         return WordClass.objects.filter(language=self).all()
@@ -24,7 +28,8 @@ class WordClass(models.Model):
     name = models.CharField(max_length=128)
 
     class Meta:
-        verbose_name_plural = "word classes"
+        verbose_name = "часть речи"
+        verbose_name_plural = "части речи"
 
     @property
     def user(self): return self.language.user
@@ -42,7 +47,8 @@ class LexicalCategory(models.Model):
     name = models.CharField(max_length=128)
 
     class Meta:
-        verbose_name_plural = "lexical categories"
+        verbose_name = "лексическая категория"
+        verbose_name_plural = "лексические категории"
 
     @property
     def language(self): return self.word_class.language
@@ -58,6 +64,10 @@ class LexicalCategoryValue(models.Model):
     lexical_category = models.ForeignKey(LexicalCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
 
+    class Meta:
+        verbose_name = "значение лексической категории"
+        verbose_name_plural = "значения лексической категории"
+
     @property
     def language(self): return self.lexical_category.language
 
@@ -70,12 +80,15 @@ class LexicalCategoryValue(models.Model):
 class Lexeme(models.Model):
     """Лексема (слово)"""
     word_class = models.ForeignKey(WordClass, on_delete=models.CASCADE)
-    word = models.CharField(max_length=256)
+    word = models.CharField(max_length=256, verbose_name="слово")
     lexical_category_values = models.ManyToManyField(LexicalCategoryValue, blank=True)
     last_repetition = models.DateTimeField(default=timezone.now)
     coefficient = models.SmallIntegerField(default=1) # last_repetition / (6 * 10 ** coefficient)
 
-    # TODO: Проверка, что лексические категории берутся из правильной части речи
+    class Meta:
+        verbose_name = "лексема"
+        verbose_name_plural = "лексемы"
+        # TODO: Проверка, что лексические категории берутся из правильной части речи
 
     @property
     def language(self): return self.word_class.language
@@ -95,6 +108,10 @@ class Meaning(models.Model):
     lexeme = models.ForeignKey(Lexeme, on_delete=models.CASCADE)
     number = models.SmallIntegerField(default=1)
     translation = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = "значение"
+        verbose_name_plural = "значения"
 
     @property
     def language(self): return self.lexeme.language

@@ -1,4 +1,5 @@
 {% for field in form %}
+{% if not field.value %}
 <div class="field border label {% if field.errors %}invalid{% endif %}">
     {{field}}
     {{field.label_tag}}
@@ -7,4 +8,5 @@
         <span class="error">{{field.errors.0}}</span>
     {% endif %}
 </div>
+{% endif %}
 {% endfor %}

@@ -11,18 +11,21 @@
     Слова
 </h2>
 {% with lexemes=word_class.lexeme_set.all %}
-{% if lexemes %}
 <div class="grid">
+    {% if lexemes %}
     {% for lexeme in lexemes %}
-    <article class="s6 m4 l3">
+    <article class="round fill s6 m4 l3 center-align">
         <h5>{{lexeme.word}}</h5>
     </article>
     {% endfor %}
+    {% endif %}
+    <a href="{% url "lexicon:add_lexeme" word_class.id %}" class="padding round fill elevate s6 m4 l3">
+        <h5><i>add</i></h5>
+    </a>
 </div>
-{% else %}
+{% comment %} {% else %}
 <div class="absolute center">
     <p>Пока нет слов</p>
-</div>
-{% endif %}
+</div> {% endcomment %}
 {% endwith %}
 {% endblock content %}

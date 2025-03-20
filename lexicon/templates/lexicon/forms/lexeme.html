@@ -1,0 +1,24 @@
+{% extends "base_form.html" %}
+
+{% block left_nav_button %}
+<a class="button circle transparent" href="{% url 'lexicon:word_class' view.kwargs.word_class_id %}">
+    <i>arrow_back</i>
+</a>
+{% endblock left_nav_button %}
+
+{% block action_url %}{% url 'lexicon:add_lexeme' word_class_id=view.kwargs.word_class_id %}{% endblock action_url %}
+
+{% block form_title %}Добавить слово{% endblock form_title %}
+
+{% block form_description %}
+<div class="top-margin">
+    <a class="chip secondary-container" href="{% url 'lexicon:word_class' word_class.id %}">{{word_class.name}}</a>
+    <a class="chip tertiary-container" href="{% url 'lexicon:language' word_class.language.id %}">{{word_class.language.name}}</a>
+</div>
+{% endblock form_description %}
+
+{% comment %} {% block form_fields %}
+
+{% endblock form_fields %} {% endcomment %}
+
+{% block submit_button %}Сохранить{% endblock submit_button %}
