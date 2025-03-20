@@ -19,6 +19,6 @@
 {% block submit_button %}Войти в аккаунт{% endblock submit_button %}
 
 {% block links %}
-<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+{% comment %} <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p> {% endcomment %}
 <p><a href="{% url 'accounts:register' %}">Ещё нет аккаунта?</a></p>
 {% endblock links %}
