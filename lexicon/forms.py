@@ -7,8 +7,8 @@ class CustomForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""
-        if "disabled" in dir(self._meta):
-            for f in self._meta.disabled:
+        if "disabled" in dir(self.Meta):
+            for f in self.Meta.disabled:
                 self.fields[f].disabled = True
     
     template_name_div = "div.html"
