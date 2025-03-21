@@ -30,6 +30,18 @@ class WordClassView(LoginRequiredMixin, generic.DetailView):
 class CustomCreateView(generic.CreateView):
     parent_field = None
     parent_class: type[Model] = Model
+    user_arg = "user"
+
+    @property
+    def parent(self):
+        if not self.parent_field:
+            return {"user": self.request.user}
+        return {
+            self.parent_field: self.parent_class.objects.get(
+                pk=self.kwargs[self.parent_field],
+                **{self.user_arg: self.request.user}
+            )
+        }
 
     def get_success_url(self):
         return reverse_lazy(
@@ -39,20 +51,12 @@ class CustomCreateView(generic.CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        if self.parent_field:
-            initial[self.parent_field] = self.parent_class.objects.get(pk=self.kwargs[self.parent_field])
-        else:
-            initial["user"] = self.request.user
-        print(initial)
+        initial.update(self.parent)
         return initial
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.parent_field:
-            update = {self.parent_field: self.parent_class.objects.get(pk=self.kwargs[self.parent_field])}
-        else:
-            update = {"user": self.request.user}
-        context.update(update)
+        context.update(self.parent)
         return context
 
 class LexemeCreateView(CustomCreateView):
