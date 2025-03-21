@@ -1,12 +1,12 @@
 {% extends "base_form.html" %}
 
 {% block left_nav_button %}
-<a class="button circle transparent" href="{% url 'lexicon:word_class' view.kwargs.word_class_id %}">
+<a class="button circle transparent" href="{% url 'lexicon:word_class' word_class.id %}">
     <i>arrow_back</i>
 </a>
 {% endblock left_nav_button %}
 
-{% block action_url %}{% url 'lexicon:add_lexeme' word_class_id=view.kwargs.word_class_id %}{% endblock action_url %}
+{% block action_url %}{% url 'lexicon:add_lexeme' word_class.id %}{% endblock action_url %}
 
 {% block form_title %}Добавить слово{% endblock form_title %}
 

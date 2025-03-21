@@ -25,21 +25,25 @@ class WordClassView(LoginRequiredMixin, generic.DetailView):
     def get_queryset(self):
         return WordClass.objects.filter(language__user=self.request.user)
 
-class LexemeCreateView(generic.CreateView):
-    form_class = LexemeForm
-    template_name = "lexicon/forms/lexeme.html"
-    
+class CustomCreateView(generic.CreateView):
+    parent_field = 'parent'
+
     def get_success_url(self):
-        return reverse_lazy("lexicon:word_class", args=(self.kwargs['word_class_id'],))
+        return reverse_lazy(f"lexicon:{self.parent_field}", args=(self.kwargs[self.parent_field],))
 
     def get_initial(self):
         initial = super().get_initial()
-        initial['word_class'] = WordClass.objects.get(pk=self.kwargs['word_class_id'])
+        initial[self.parent_field] = WordClass.objects.get(pk=self.kwargs[self.parent_field])
         return initial
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            "word_class": WordClass.objects.get(pk=self.kwargs['word_class_id'])
+            self.parent_field: WordClass.objects.get(pk=self.kwargs[self.parent_field])
         })
         return context
+
+class LexemeCreateView(CustomCreateView):
+    form_class = LexemeForm
+    template_name = "lexicon/forms/lexeme.html"
+    parent_field = "word_class"
