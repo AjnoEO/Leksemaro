@@ -22,10 +22,19 @@
         </nav>
     </article>
     {% endfor %}
+    <a href="{% url 'lexicon:add_word_class' language.id %}" class="padding round surface-container elevate s6 m4 l3">
+        <h5>
+            <i>add</i> Добавить
+        </h5>
+    </a>
 </div>
 {% else %}
-<div class="absolute center">
-    <p>Пока нет частей речи</p>
+<div class="center-align">
+    <p>
+        Пока нет частей речи
+        <br>
+        <a class="link" href="{% url 'lexicon:add_word_class' language.id %}">Создать</a>
+    </p>
 </div>
 {% endif %}
 {% endwith %}

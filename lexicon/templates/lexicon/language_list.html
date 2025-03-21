@@ -16,10 +16,21 @@
             </nav>
         </article>
         {% endfor %}
+        <article class="no-padding s6 m4 l3 center-align middle-align">
+            <a href="{% url 'lexicon:add_language' %}" class="padding">
+                <h5>
+                    <i>add</i> Добавить
+                </h5>
+            </a>
+        </article>
     </div>
     {% else %}
-    <div class="absolute center">
-        <p>Пока нет языков</p>
+    <div class="center-align">
+        <p>
+            Пока нет языков
+            <br>
+            <a class="link" href="{% url 'lexicon:add_language' %}">Создать</a>
+        </p>
     </div>
     {% endif %}
 {% endblock content %}

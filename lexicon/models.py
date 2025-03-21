@@ -5,7 +5,7 @@ from django.utils import timezone
 class Language(models.Model):
     """Язык"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name="название")
 
     class Meta:
         verbose_name = "язык"
@@ -25,7 +25,7 @@ class Language(models.Model):
 class WordClass(models.Model):
     """Часть речи"""
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name="название")
 
     class Meta:
         verbose_name = "часть речи"
@@ -44,7 +44,7 @@ class WordClass(models.Model):
 class LexicalCategory(models.Model):
     """Лексическая категория (род, склонение, спряжение и пр.)"""
     word_class = models.ForeignKey(WordClass, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name="название")
 
     class Meta:
         verbose_name = "лексическая категория"
@@ -62,7 +62,7 @@ class LexicalCategory(models.Model):
 class LexicalCategoryValue(models.Model):
     """Значение лексической категории"""
     lexical_category = models.ForeignKey(LexicalCategory, on_delete=models.CASCADE)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, verbose_name="значение")
 
     class Meta:
         verbose_name = "значение лексической категории"

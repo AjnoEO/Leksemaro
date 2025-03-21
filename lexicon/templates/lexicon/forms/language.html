@@ -1,0 +1,23 @@
+{% extends "base_form.html" %}
+
+{% block left_nav_button %}
+<a class="button circle transparent" href="{% url 'lexicon:index' %}">
+    <i>arrow_back</i>
+</a>
+{% endblock left_nav_button %}
+
+{% block action_url %}{% url 'lexicon:add_language' %}{% endblock action_url %}
+
+{% block form_title %}Добавить язык{% endblock form_title %}
+
+{% comment %} {% block form_description %}
+<div class="top-margin">
+    <a class="chip tertiary-container" href="{% url 'lexicon:index' %}">{{language.name}}</a>
+</div>
+{% endblock form_description %} {% endcomment %}
+
+{% comment %} {% block form_fields %}
+
+{% endblock form_fields %} {% endcomment %}
+
+{% block submit_button %}Сохранить{% endblock submit_button %}

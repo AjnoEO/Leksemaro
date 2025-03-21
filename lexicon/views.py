@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Model
 from django.views import generic
@@ -27,23 +28,31 @@ class WordClassView(LoginRequiredMixin, generic.DetailView):
         return WordClass.objects.filter(language__user=self.request.user)
 
 class CustomCreateView(generic.CreateView):
-    parent_field = 'parent'
+    parent_field = None
     parent_class: type[Model] = Model
 
     def get_success_url(self):
-        return reverse_lazy(f"lexicon:{self.parent_field}", args=(self.kwargs[self.parent_field],))
+        return reverse_lazy(
+            f"lexicon:{self.parent_field or 'index'}", 
+            args=(self.kwargs[self.parent_field],) if self.parent_field else None
+        )
 
     def get_initial(self):
         initial = super().get_initial()
-        initial[self.parent_field] = self.parent_class.objects.get(pk=self.kwargs[self.parent_field])
+        if self.parent_field:
+            initial[self.parent_field] = self.parent_class.objects.get(pk=self.kwargs[self.parent_field])
+        else:
+            initial["user"] = self.request.user
         print(initial)
         return initial
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({
-            self.parent_field: self.parent_class.objects.get(pk=self.kwargs[self.parent_field])
-        })
+        if self.parent_field:
+            update = {self.parent_field: self.parent_class.objects.get(pk=self.kwargs[self.parent_field])}
+        else:
+            update = {"user": self.request.user}
+        context.update(update)
         return context
 
 class LexemeCreateView(CustomCreateView):
@@ -57,3 +66,11 @@ class WordClassCreateView(CustomCreateView):
     template_name = "lexicon/forms/word_class.html"
     parent_field = "language"
     parent_class = Language
+
+class LanguageCreateView(CustomCreateView):
+    form_class = LanguageForm
+    template_name = "lexicon/forms/language.html"
+    parent_class = User
+    
+    # def get_success_url(self):
+    #     return reverse_lazy(f"lexicon:index")
