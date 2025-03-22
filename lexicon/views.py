@@ -64,6 +64,7 @@ class LexemeCreateView(CustomCreateView):
     template_name = "lexicon/forms/lexeme.html"
     parent_field = "word_class"
     parent_class = WordClass
+    user_arg = "language__user"
 
 class WordClassCreateView(CustomCreateView):
     form_class = WordClassForm
