@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Повторение{% endblock title %}
+
+{% block head_extra %}
+<script type="text/javascript" src="{% static 'lexicon/quiz.js' %}" defer></script>
+{{data|json_script:"data"}}
+<script>
+    const csrf_token = "{{ csrf_token }}"
+</script>
+{% endblock head_extra %}
+
+{% block content %}
+{% if lexemes_count == 0 %}
+<div class="center-align">
+    <p>
+        Сейчас нет слов, которые надо повторять! Можешь отдохнуть ^^
+        <br>
+        <a class="link" href="{% url 'lexicon:language' language.id %}">Вернуться</a>
+    </p>
+</div>
+{% else %}
+<!-- По мотивам https://codelab.pro/sozdaem-prostoj-kviz-na-javascript/ -->
+<div class="grid">
+    <div class="s0 m2 l3"></div>
+    <div class="s12 m8 l6">
+        <h2>Повторение лексики</h2>
+        <div class="top-margin">
+            <a class="chip tertiary-container" href="{% url 'lexicon:language' language.id %}">{{language.name}}</a>
+        </div>
+        <form action="#!" id="quiz_form">
+            {% csrf_token %}
+            <p class="large-text">Введите перевод слова <strong class="green-text" id="word"></strong></p>
+            <div id="input_div" class="field">
+                <input type="text">
+            </div>
+            <div class="row padding">
+                <div id="infobar" class="max"></div>
+                <button type="button" id="action_button" class="green">
+                    Проверить
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="s0 m2 l3"></div>
+</div>
+{% endif %}
+{% endblock content %}

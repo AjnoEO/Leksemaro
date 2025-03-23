@@ -10,7 +10,7 @@
             <h5>{{language.name}}</h5>
             <p>Слов: {{language.word_count}}</p>
             <nav>
-                <a class="button primary" href="{% url "lexicon:language" language.id %}">
+                <a class="button primary" href="{% url "lexicon:quiz" language.id %}">
                     Учить!
                 </a>
                 <a href="{% url "lexicon:language" language.id %}" class="button fill">

@@ -10,7 +10,8 @@
     <script type="text/javascript" src="{% static 'jquery-3.7.1.min.js' %}"></script>
     {% block jquery_plugins %}{% endblock jquery_plugins %}
     <script type="module" src="{% static 'registration/script.js' %}"></script>
-    <link href="{% static 'style.css' %}" rel="stylesheet"> 
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    {% block head_extra %}{% endblock head_extra %}
 </head>
 <body>
     <header class="fill bottom-margin">

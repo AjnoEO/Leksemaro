@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from datetime import timedelta
+
 class Language(models.Model):
     """Язык"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -79,11 +81,15 @@ class LexicalCategoryValue(models.Model):
 
 class Lexeme(models.Model):
     """Лексема (слово)"""
+    def default_next_repetition():
+        return timezone.now() + timedelta(minutes=6)
+
     word_class = models.ForeignKey(WordClass, on_delete=models.CASCADE)
     word = models.CharField(max_length=256, verbose_name="слово")
     lexical_category_values = models.ManyToManyField(LexicalCategoryValue, blank=True)
     last_repetition = models.DateTimeField(default=timezone.now)
     coefficient = models.SmallIntegerField(default=1) # last_repetition / (6 * 10 ** coefficient)
+    next_repetition = models.DateTimeField(default=default_next_repetition)
 
     class Meta:
         verbose_name = "лексема"
