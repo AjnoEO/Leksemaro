@@ -20,6 +20,10 @@ class Language(models.Model):
     @property
     def word_count(self):
         return sum([wc.word_count for wc in self.word_classes])
+    
+    @property
+    def words_to_repeat(self):
+        return Lexeme.objects.filter(word_class__language=self, next_repetition__lte=timezone.now()).count()
 
     def __str__(self):
         return f"Язык '{self.name}' | {self.user}"

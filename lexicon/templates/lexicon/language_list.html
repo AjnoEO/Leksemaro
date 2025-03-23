@@ -12,6 +12,9 @@
             <nav>
                 <a class="button primary" href="{% url "lexicon:quiz" language.id %}">
                     Учить!
+                    {% with to_repeat=language.words_to_repeat %}{% if to_repeat %}
+                    <div class="badge border none">{{to_repeat}}</div>
+                    {% endif %}{% endwith %}
                 </a>
                 <a href="{% url "lexicon:language" language.id %}" class="button fill">
                     Смотреть
