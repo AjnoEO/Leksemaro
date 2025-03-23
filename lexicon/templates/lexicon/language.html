@@ -5,6 +5,12 @@
 {% block back_url %}{% url "lexicon:index" %}{% endblock back_url %}
 
 {% block content %}
+<a href="{% url "lexicon:quiz" language.id %}" class="button">
+    Повторение лексики
+    {% with to_repeat=language.words_to_repeat %}{% if to_repeat %}
+    <div class="badge border none">{{to_repeat}}</div>
+    {% endif %}{% endwith %}
+</a>
 <h2>
     Части речи
 </h2>
