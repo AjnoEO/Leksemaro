@@ -21,14 +21,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+import os
+from configparser import ConfigParser
+
+CONFIG_PATH = BASE_DIR / "leksemaro" / "config.ini"
+
+if os.path.exists(CONFIG_PATH):
+    config = ConfigParser()
+    config.read(CONFIG_PATH)
+else:
+    raise FileExistsError("config.ini is missing.\n"
+                          "If you cloned or pulled the git repo, "
+                          "make sure to copy example.config.ini, "
+                          "name it config.ini and edit for your needs.")
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p8gr1w89)5rxk9)6me!$ei2w-@363*%y=5mjvjr2%@k26=j4_n'
+SECRET_KEY = config["data"]["secret_key"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (config["data"]["debug"].lower().strip() == "true")
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = list(config["hosts"].values())
 
 # Application definition
 
@@ -128,3 +141,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG

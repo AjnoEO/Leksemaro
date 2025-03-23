@@ -6,3 +6,6 @@ db.sqlite3
 
 # Плагины jquery
 django-dynamic-formset
+
+# Конфиг
+leksemaro/config.ini
