@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Model
 from django.http import HttpRequest
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 
@@ -69,7 +69,7 @@ class LexemeCreateView(CustomCreateView):
     user_arg = "language__user"
 
 def add_lexeme(request: HttpRequest, word_class: int):
-    word_class = WordClass.objects.get(pk=word_class)
+    word_class: WordClass = get_object_or_404(WordClass, pk=word_class, language__user=request.user)
     if request.method == "POST":
         form = LexemeForm(request.POST, initial={'word_class': word_class})
         formset = MeaningFormSet(request.POST)
