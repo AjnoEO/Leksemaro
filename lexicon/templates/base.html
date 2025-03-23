@@ -7,6 +7,8 @@
     <title>{% block title %}Leksemaro{% endblock title %}</title>
     <link href="https://cdn.jsdelivr.net/npm/beercss@3.9.7/dist/cdn/beer.min.css" rel="stylesheet">
     <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.9.7/dist/cdn/beer.min.js"></script>
+    <script type="text/javascript" src="{% static 'jquery-3.7.1.min.js' %}"></script>
+    {% block jquery_plugins %}{% endblock jquery_plugins %}
     <script type="module" src="{% static 'registration/script.js' %}"></script>
     <link href="{% static 'style.css' %}" rel="stylesheet"> 
 </head>

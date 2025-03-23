@@ -1,7 +1,7 @@
 from django.contrib.auth import forms
 from django import forms
 
-from .models import Language, WordClass, Lexeme
+from .models import Language, WordClass, Lexeme, Meaning
 
 class CustomForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -18,6 +18,13 @@ class LexemeForm(forms.ModelForm, CustomForm):
         model = Lexeme
         fields = ("word_class", "word")
         disabled = ("word_class",)
+
+class MeaningForm(forms.ModelForm, CustomForm):
+    class Meta:
+        model = Meaning
+        fields = ("translation",)
+
+MeaningFormSet = forms.inlineformset_factory(Lexeme, Meaning, MeaningForm, extra=0, min_num=1)
 
 class WordClassForm(forms.ModelForm, CustomForm):
     class Meta:

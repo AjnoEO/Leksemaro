@@ -16,6 +16,13 @@
     {% for lexeme in lexemes %}
     <article class="round fill s6 m4 l3 center-align">
         <h5>{{lexeme.word}}</h5>
+        {% if lexeme.meaning_set.all %}
+        <ol>
+        {% for meaning in lexeme.meaning_set.all %}
+        <li>{{meaning.translation}}</li>
+        {% endfor %}
+        </ol>
+        {% endif %}
     </article>
     {% endfor %}
     {% endif %}

@@ -107,7 +107,7 @@ class Meaning(models.Model):
     """Значение слова"""
     lexeme = models.ForeignKey(Lexeme, on_delete=models.CASCADE)
     number = models.SmallIntegerField(default=1)
-    translation = models.CharField(max_length=256)
+    translation = models.CharField(max_length=256, verbose_name="Перевод")
 
     class Meta:
         verbose_name = "значение"

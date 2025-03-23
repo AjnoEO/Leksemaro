@@ -1,0 +1,40 @@
+{% extends "base_form.html" %}
+{% load static %}
+
+{% block jquery_plugins %}
+<script type="text/javascript" src="{% static 'jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.meaning-form').formset({prefix: 'meaning_set'});
+    })
+</script>
+{% endblock jquery_plugins %}
+
+{% block left_nav_button %}
+<a class="button circle transparent" href="{% url 'lexicon:word_class' word_class.id %}">
+    <i>arrow_back</i>
+</a>
+{% endblock left_nav_button %}
+
+{% block action_url %}{% url 'lexicon:add_lexeme' word_class.id %}{% endblock action_url %}
+
+{% block form_title %}Добавить слово{% endblock form_title %}
+
+{% block form_description %}
+<div class="top-margin">
+    <a class="chip secondary-container" href="{% url 'lexicon:word_class' word_class.id %}">{{word_class.name}}</a>
+    <a class="chip tertiary-container" href="{% url 'lexicon:language' word_class.language.id %}">{{word_class.language.name}}</a>
+</div>
+{% endblock form_description %}
+
+{% block form_fields %}
+{{form.as_div}}
+{% for form in meanings.forms %}
+<nav class="meaning-form">
+    {{form.as_div}}
+</nav>
+{% endfor %}
+{{meanings.management_form}}
+{% endblock form_fields %}
+
+{% block submit_button %}Сохранить{% endblock submit_button %}

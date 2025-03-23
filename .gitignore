@@ -3,3 +3,6 @@ db.sqlite3
 
 # cache
 **/__pycache__
+
+# Плагины jquery
+django-dynamic-formset

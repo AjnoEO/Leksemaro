@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Model
+from django.http import HttpRequest
+from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.urls import reverse_lazy
 
-from .forms import LanguageForm, WordClassForm, LexemeForm
-from .models import Language, WordClass
+from .forms import LanguageForm, WordClassForm, LexemeForm, MeaningFormSet
+from .models import Language, WordClass, Meaning
 
 class LanguageListView(LoginRequiredMixin, generic.ListView):
     template_name = "lexicon/language_list.html"
@@ -65,6 +67,38 @@ class LexemeCreateView(CustomCreateView):
     parent_field = "word_class"
     parent_class = WordClass
     user_arg = "language__user"
+
+def add_lexeme(request: HttpRequest, word_class: int):
+    word_class = WordClass.objects.get(pk=word_class)
+    if request.method == "POST":
+        form = LexemeForm(request.POST, initial={'word_class': word_class})
+        formset = MeaningFormSet(request.POST)
+        if formset.is_valid():
+            lexeme = form.save()
+            for meaning_form in formset:
+                meaning: Meaning = meaning_form.save(commit=False)
+                meaning.lexeme = lexeme
+                meaning.save()
+            return redirect(reverse("lexicon:word_class", args=(word_class.id,)))
+    else:
+        form = LexemeForm(initial={'word_class': word_class})
+        formset = MeaningFormSet()
+    return render(request, "lexicon/forms/lexeme_with_meanings.html", {"form": form, "meanings": formset, "word_class": word_class})
+
+class LexemeWithMeaningsCreateView(CustomCreateView):
+    form_class = LexemeForm
+    template_name = "lexicon/forms/lexeme_with_meanings.html"
+    parent_field = "word_class"
+    parent_class = WordClass
+    user_arg = "language__user"
+    
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['meanings'] = MeaningFormSet(self.request.POST)
+        else:
+            data['meanings'] = MeaningFormSet()
+        return data
 
 class WordClassCreateView(CustomCreateView):
     form_class = WordClassForm

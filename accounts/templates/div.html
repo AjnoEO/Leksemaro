@@ -1,11 +1,11 @@
-{% for field in form %}
-{% if not field.value %}
-<div class="field border label {% if field.errors %}invalid{% endif %}">
+{% for field in form.visible_fields %}
+{% if not field.field.disabled and field.label != "Удалить" %}
+<div class="field border label max {% if field.errors %}invalid{% endif %}">
     {{field}}
     {{field.label_tag}}
     {% if field.errors %}
-        <i>error</i>
-        <span class="error">{{field.errors.0}}</span>
+    <i>error</i>
+    <div class="tooltip">{{field.errors.0}}</div>
     {% endif %}
 </div>
 {% endif %}
